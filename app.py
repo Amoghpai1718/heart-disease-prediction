@@ -1,9 +1,26 @@
 import streamlit as st
 import numpy as np
 import joblib
+import base64 # New import
+
+# --- FUNCTION TO ADD A BACKGROUND IMAGE ---
+# The function reads a local image, encodes it, and applies it as the background.
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+        background-size: cover
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
 
 # --- LOAD THE TRAINED MODEL ---
-# The model is loaded once when the app starts and is cached for subsequent runs.
 @st.cache_resource
 def load_model():
     model = joblib.load('heart_disease_model.joblib')
@@ -13,8 +30,13 @@ model = load_model()
 
 # --- WEB APP INTERFACE ---
 
+# Call the function to add the background image
+# MAKE SURE 'background.jpg' is the correct name of your image file
+add_bg_from_local('background.jpg') 
+
 # Set the title of the web app
 st.title('❤️ Heart Disease Prediction App')
+# ... (the rest of your code remains exactly the same)
 st.write("This app predicts whether a person has heart disease based on their medical attributes.")
 
 # Create input fields for the user in two columns
@@ -65,5 +87,6 @@ if st.button('Predict Heart Disease', type="primary"):
         st.error('**Heart Disease Detected**')
         st.write(f"Confidence: {prediction_proba[0][1]*100:.2f}%")
         st.warning("Please consult a doctor for further evaluation.")
+
 
 st.sidebar.info("This is a web application for predicting heart disease using a machine learning model. Created for educational purposes.")
