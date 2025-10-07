@@ -14,7 +14,7 @@ model = load_model()
 # --- WEB APP INTERFACE ---
 
 # Set the title of the web app
-st.title('❤️ Heart Disease Prediction App')
+st.title('Heart Disease Prediction App')
 st.write("This app predicts whether a person has heart disease based on their medical attributes.")
 
 # Create input fields for the user in two columns
@@ -67,3 +67,4 @@ if st.button('Predict Heart Disease', type="primary"):
         st.warning("Please consult a doctor for further evaluation.")
 
 st.sidebar.info("This is a web application for predicting heart disease using a machine learning model. Created for educational purposes.")
+
